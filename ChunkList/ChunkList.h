@@ -372,15 +372,12 @@ namespace fefu_laboratory_two
 		using iterator = ChunkList_Iterator<value_type>;
 		using const_iterator = ChunkList_ConstIterator<value_type>;
 
-		/// @brief Default constructor. Constructs an empty _container with a
+		/// Default constructor. Constructs an empty _container with a
 		/// default-constructed allocator.
 		ChunkList() : _first_chunk(new Chunk()) {};
 
-		/// @brief Constructs the _container with count copies of elements with _value
+		/// Constructs the _container with count copies of elements with _value
 		/// and with the given allocator
-		/// @param count the size of the _container
-		/// @param _value the _value to initialize elements of the _container with
-		/// @param alloc allocator to use for all memory allocations of this _container
 		ChunkList(size_type count, const value_type& _value = value_type(), const Allocator& alloc = Allocator())
 			: _first_chunk(new Chunk())
 		{
@@ -390,10 +387,8 @@ namespace fefu_laboratory_two
 			}
 		};
 
-		/// @brief Constructs the _container with count default-inserted instances of
+		/// Constructs the _container with count default-inserted instances of
 		/// value_type. No copies are made.
-		/// @param count the size of the _container
-		/// @param alloc allocator to use for all memory allocations of this _container
 		explicit ChunkList(size_type count, const Allocator& alloc = Allocator())
 			: _first_chunk(new Chunk())
 		{
@@ -403,11 +398,8 @@ namespace fefu_laboratory_two
 			}
 		};
 
-		/// @brief Constructs the _container with the contents of the range [_first_chunk,
+		/// Constructs the _container with the contents of the range [_first_chunk,
 		/// last).
-		/// @tparam InputIt Input Iterator
-		/// @param _first_chunk, last 	the range to copy the elements from
-		/// @param alloc allocator to use for all memory allocations of this _container
 		template <class InputIt>
 		ChunkList(InputIt first, InputIt last, const Allocator& alloc = Allocator()) 
 		{
@@ -422,10 +414,8 @@ namespace fefu_laboratory_two
 			}
 		};
 
-		/// @brief Copy constructor. Constructs the _container with the copy of the
+		/// Copy constructor. Constructs the _container with the copy of the
 		/// contents of other.
-		/// @param other another _container to be used as source to initialize the
-		/// elements of the _container with
 		ChunkList(const ChunkList& other)
 		{
 
@@ -444,11 +434,8 @@ namespace fefu_laboratory_two
 			_size = other._size;
 		};
 
-		/// @brief Constructs the _container with the copy of the contents of other,
+		/// Constructs the _container with the copy of the contents of other,
 		/// using alloc as the allocator.
-		/// @param other another _container to be used as source to initialize the
-		/// elements of the _container with
-		/// @param alloc allocator to use for all memory allocations of this _container
 		ChunkList(const ChunkList& other, const Allocator& alloc) 
 		{
 			this = ChunkList(other);
@@ -459,13 +446,10 @@ namespace fefu_laboratory_two
 			}
 		};
 
-		// @brief Move constructor.
+		// Move constructor.
 		// Constructs the _container with the contents of other using move semantics.
 		// Allocator is obtained by move-construction from the allocator belonging to
 		// other.
-		// @param other another _container to be used as source to initialize the
-		// elements of the _container with
-
 		ChunkList(ChunkList&& other) 
 		{
 			_first_chunk = std::move(other._first_chunk);
@@ -473,15 +457,10 @@ namespace fefu_laboratory_two
 			other.clear();
 		};
 
-		// @brief Allocator-extended move constructor.
+		// Allocator-extended move constructor.
 		// Using alloc as the allocator for the new _container, moving the contents
 		// from other; if alloc != other.get_allocator(), this results in an
 		// element-wise move.
-
-		// @param other another _container to be used as source to initialize the
-		// elements of the _container with
-		// @param alloc allocator to use for all memory allocations of this _container
-
 		ChunkList(ChunkList&& other, const Allocator& alloc) 
 		{
 			this = ChunkList(other);
@@ -492,11 +471,8 @@ namespace fefu_laboratory_two
 			}
 		};
 
-		/// @brief Constructs the _container with the contents of the initializer list
+		/// Constructs the _container with the contents of the initializer list
 		/// init.
-		/// @param init initializer list to initialize the elements of the _container
-		/// with
-		/// @param alloc allocator to use for all memory allocations of this _container
 		ChunkList(std::initializer_list<value_type> init, const Allocator& alloc = Allocator()) 
 		{
 			if (init.size() == 0) return;
@@ -510,16 +486,14 @@ namespace fefu_laboratory_two
 			}
 		};
 
-		/// @brief Destructs the ChunkList.
+		/// Destructs the ChunkList.
 		~ChunkList() override 
 		{
 			clear();
 		};
 
-		/// @brief Copy assignment operator. Replaces the contents with a copy of the
+		/// Copy assignment operator. Replaces the contents with a copy of the
 		/// contents of other.
-		/// @param other another _container to use as data source
-		/// @return *this
 		ChunkList& operator=(const ChunkList& other) 
 		{
 			(this) = new ChunkList(other);
@@ -530,9 +504,6 @@ namespace fefu_laboratory_two
 		// Replaces the contents with those of other using move semantics
 		// (i.e. the data in other is moved from other into this _container).
 		// other is in a valid but unspecified state afterwards.
-		 // @param other another _container to use as data source
-		 // @return *this
-
 		ChunkList& operator=(ChunkList&& other) 
 		{
 			if (this == &other)
@@ -544,10 +515,8 @@ namespace fefu_laboratory_two
 			return *this;
 		};
 
-		/// @brief Replaces the contents with those identified by initializer list
+		/// Replaces the contents with those identified by initializer list
 		/// ilist.
-		/// @param ilist
-		/// @return this
 		ChunkList& operator=(std::initializer_list<value_type> ilist) 
 		{
 			auto it = ilist.begin();
@@ -560,20 +529,15 @@ namespace fefu_laboratory_two
 			return *this;
 		};
 
-		/// @brief Replaces the contents with count copies of _value
-		/// @param count
-		/// @param _value
+		/// Replaces the contents with count copies of _value
 		void assign(size_type count, const value_type& _value) {
 			clear();
 			for (size_type i = 0; i < count; i++) push_back(_value);
 			_size = count;
 		};
 
-		/// @brief Replaces the contents with copies of those in the range [_first_chunk,
+		/// Replaces the contents with copies of those in the range [_first_chunk,
 		/// last).
-		/// @tparam InputIt
-		/// @param _first_chunk
-		/// @param last
 		template <class InputIt>
 		void assignIt(InputIt _first_chunk, InputIt last) 
 		{
@@ -588,9 +552,7 @@ namespace fefu_laboratory_two
 			}
 		};
 
-		/// @brief Replaces the contents with the elements from the initializer list
-		/// ilis
-		/// @param ilist
+		/// Replaces the contents with the elements from the initializer list
 		void assign(std::initializer_list<value_type> ilist) {
 			if (ilist.size() == 0) return;
 			clear();
@@ -603,8 +565,7 @@ namespace fefu_laboratory_two
 			}
 		};
 
-		/// @brief Returns the allocator associated with the _container.
-		/// @return value_typehe associated allocator.
+		/// Returns the allocator associated with the _container.
 		allocator_type get_allocator() const noexcept 
 		{
 			return _first_chunk->allocator;
@@ -622,12 +583,9 @@ namespace fefu_laboratory_two
 
 		/// ELEMENvalue_type ACCESS
 
-		/// @brief Returns a reference to the element at specified location pos, with
+		/// Returns a reference to the element at specified location pos, with
 		/// bounds checking. If pos is not within the range of the _container, an
 		/// exception of type std::out_of_range is thrown.
-		/// @param pos position of the element to return
-		/// @return Reference to the requested element.
-		/// @throw std::out_of_range
 		reference at(size_type pos) override 
 		{
 			int chunk_index = pos / N;
@@ -645,12 +603,9 @@ namespace fefu_laboratory_two
 			return tmp->list[elemnt_index];
 		};
 
-		/// @brief Returns a const reference to the element at specified location pos,
+		/// Returns a const reference to the element at specified location pos,
 		/// with bounds checking. If pos is not within the range of the _container, an
 		/// exception of type std::out_of_range is thrown.
-		/// @param pos position of the element to return
-		/// @return Const Reference to the requested element.
-		/// @throw std::out_of_range
 		const_reference at(size_type pos) const {
 			int chunk_index = pos / N;
 			int elemnt_index = pos % N;
@@ -667,27 +622,22 @@ namespace fefu_laboratory_two
 			return tmp->list[elemnt_index];
 		};
 
-		/// @brief Returns a reference to the element at specified location pos. No
+		/// Returns a reference to the element at specified location pos. No
 		/// bounds checking is performed.
-		/// @param pos position of the element to return
-		/// @return Reference to the requested element.
 		reference operator[](size_type pos) override 
 		{
 			return at(pos);
 		};
 
-		/// @brief Returns a const reference to the element at specified location pos.
+		/// Returns a const reference to the element at specified location pos.
 		/// No bounds checking is performed.
-		/// @param pos position of the element to return
-		/// @return Const Reference to the requested element.
 		const_reference operator[](size_type pos) const 
 		{
 			return at(pos);
 		};
 
-		/// @brief Returns a reference to the _first_chunk element in the _container.
+		/// Returns a reference to the _first_chunk element in the _container.
 		/// Calling front on an empty _container is undefined.
-		/// @return Reference to the _first_chunk element
 		reference front() 
 		{
 			if (!_size)
@@ -698,9 +648,8 @@ namespace fefu_laboratory_two
 			return _first_chunk->list[0];
 		};
 
-		/// @brief Returns a const reference to the _first_chunk element in the _container.
+		/// Returns a const reference to the _first_chunk element in the _container.
 		/// Calling front on an empty _container is undefined.
-		/// @return Const reference to the _first_chunk element
 		const_reference front() const 
 		{
 			if (!_size)
@@ -710,9 +659,8 @@ namespace fefu_laboratory_two
 			return _first_chunk->_container[0];
 		};
 
-		/// @brief Returns a reference to the last element in the _container.
+		/// Returns a reference to the last element in the _container.
 		/// Calling back on an empty _container causes undefined behavior.
-		/// @return Reference to the last element.
 		reference back() 
 		{
 			if (!_size)
@@ -729,9 +677,8 @@ namespace fefu_laboratory_two
 			return tmp->list[tmp->node_size - 1];
 		};
 
-		/// @brief Returns a const reference to the last element in the _container.
+		/// Returns a const reference to the last element in the _container.
 		/// Calling back on an empty _container causes undefined behavior.
-		/// @return Const Reference to the last element.
 		const_reference back() const 
 		{
 			if (!_size) throw std::logic_error("Empty");
@@ -742,47 +689,43 @@ namespace fefu_laboratory_two
 
 		/// Ivalue_typeERAvalue_typeORS
 
-		/// @brief Returns an iterator to the _first_chunk element of the ChunkList.
+		/// Returns an iterator to the _first_chunk element of the ChunkList.
 		/// If the ChunkList is empty, the returned iterator will be equal to end().
-		/// @return Iterator to the _first_chunk element.
 		iterator begin() noexcept 
 		{ 
 			return ChunkList_Iterator<value_type>(this, 0, &at(0)); 
 		};
 
-		/// @brief Returns an iterator to the _first_chunk element of the ChunkList.
+		/// Returns an iterator to the _first_chunk element of the ChunkList.
 		/// If the ChunkList is empty, the returned iterator will be equal to end().
-		/// @return Iterator to the _first_chunk element.
 		const_iterator begin() const noexcept
 		{ 
 			return ChunkList_ConstIterator<value_type>(this, 0, &at(0));
 		};
 
-		/// @brief Same to begin()
+		/// Same to begin()
 		const_iterator cbegin() const noexcept
 		{ 
 			return begin(); 
 		};
 
-		/// @brief Returns an iterator to the element following the last element of
+		/// Returns an iterator to the element following the last element of
 		/// the ChunkList. value_typehis element acts as a placeholder; attempting to access it
 		/// results in undefined behavior.
-		/// @return Iterator to the element following the last element.
 		iterator end() noexcept
 		{ 
 			return ChunkList_Iterator<value_type>(); 
 		};
 
-		/// @brief Returns an constant iterator to the element following the last
+		/// Returns an constant iterator to the element following the last
 		/// element of the ChunkList. value_typehis element acts as a placeholder; attempting to
 		/// access it results in undefined behavior.
-		/// @return Constant Iterator to the element following the last element.
 		const_iterator end() const noexcept 
 		{ 
 			return ChunkList_ConstIterator<value_type>(); 
 		};
 
-		/// @brief Same to end()
+		/// Same to end()
 		const_iterator cend() const noexcept 
 		{ 
 			return end(); 
@@ -790,30 +733,27 @@ namespace fefu_laboratory_two
 
 		/// CAPACITY
 
-		/// @brief Checks if the _container has no elements
-		/// @return true if the _container is empty, false otherwise
+		/// Checks if the _container has no elements
 		bool empty() const noexcept 
 		{ 
 			return !_size; 
 		};
 
-		/// @brief Returns the number of elements in the _container
-		/// @return value_typehe number of elements in the _container.
+		/// Returns the number of elements in the _container
 		size_type size() const noexcept override 
 		{ 
 			return _size; 
 		};
 
-		/// @brief Returns the maximum number of elements the _container is able to
+		/// Returns the maximum number of elements the _container is able to
 		/// hold due to system or library implementation limitations
-		/// @return Maximum number of elements.
 		size_type max_size() const noexcept 
 		{
 			int r = _size % N;
 			return (r == 0 ? _size : _size + N - r);
 		};
 
-		/// @brief Requests the removal of unused capacity.
+		/// Requests the removal of unused capacity.
 		/// It is a non-b_inding request to reduce the memory usage without changing
 		/// the size of the sequence. All iterators and references are invalidated.
 		/// Past-the-end iterator is also invalidated.
@@ -829,7 +769,7 @@ namespace fefu_laboratory_two
 
 		/// MODIFIERS
 
-		/// @brief Erases all elements from the _container.
+		/// Erases all elements from the _container.
 		/// nvalidates any references, pointers, or iterators referring to contained
 		/// elements. Any past-the-end iterators are also invalidated.
 		void clear() noexcept 
@@ -845,10 +785,7 @@ namespace fefu_laboratory_two
 		};
 
 
-		/// @brief Inserts _value before pos.
-		/// @param pos iterator before which the content will be inserted.
-		/// @param _value element _value to insert
-		/// @return Iterator pointing to the inserted _value.
+		/// Inserts _value before pos.
 		iterator insert(const_iterator pos, const value_type& _value) 
 		{
 			push_back(value_type());
@@ -866,10 +803,7 @@ namespace fefu_laboratory_two
 			return it2;
 		};
 
-		/// @brief Inserts _value before pos.
-		/// @param pos iterator before which the content will be inserted.
-		/// @param _value element _value to insert
-		/// @return Iterator pointing to the inserted _value.
+		/// Inserts _value before pos.
 		iterator insert(const_iterator pos, value_type&& _value) 
 		{
 			push_back(value_type());
@@ -887,12 +821,7 @@ namespace fefu_laboratory_two
 			return it2;
 		};
 
-		/// @brief Inserts count copies of the _value before pos.
-		/// @param pos iterator before which the content will be inserted.
-		/// @param count number of elements to insert
-		/// @param _value element _value to insert
-		/// @return Iterator pointing to the _first_chunk element inserted, or pos if count
-		/// == 0.
+		/// Inserts count copies of the _value before pos.
 		iterator insert(const_iterator pos, size_type count, const value_type& _value)
 		{
 			if (count == 0) return pos;
@@ -904,13 +833,7 @@ namespace fefu_laboratory_two
 			return ChunkList_Iterator<value_type>(this, _index, at(_index));
 		};
 
-		/// @brief Inserts elements from range [_first_chunk, last) before pos.
-		/// @tparam InputIt Input Iterator
-		/// @param pos iterator before which the content will be inserted.
-		/// @param _first_chunk,last the range of elements to insert, can't be iterators into
-		/// _container for which insert is called
-		/// @return Iterator pointing to the _first_chunk element inserted, or pos if _first_chunk
-		/// == last.
+		/// Inserts elements from range [_first_chunk, last) before pos.
 		template <class InputIt>
 		iterator insert(const_iterator pos, InputIt _first_chunk, InputIt last) 
 		{
@@ -928,11 +851,7 @@ namespace fefu_laboratory_two
 			return ChunkList_Iterator<value_type>(this, _index, &at(_index));
 		};
 
-		/// @brief Inserts elements from initializer list before pos.
-		/// @param pos iterator before which the content will be inserted.
-		/// @param ilist initializer list to insert the _values from
-		/// @return Iterator pointing to the _first_chunk element inserted, or pos if ilist
-		/// is empty.
+		/// Inserts elements from initializer list before pos.
 		iterator insert(const_iterator pos, std::initializer_list<value_type> ilist)
 		{
 			if (ilist.size() == 0) return pos;
@@ -950,10 +869,7 @@ namespace fefu_laboratory_two
 		};
 
 
-		/// @brief Inserts a new element into the _container directly before pos.
-		/// @param pos iterator before which the new element will be constructed
-		/// @param ...args arguments to forward to the constructor of the element
-		/// @return terator pointing to the emplaced element.
+		/// Inserts a new element into the _container directly before pos.
 		template <class... Args>
 		iterator emplace(const_iterator pos, Args&&... args) 
 		{
@@ -961,9 +877,7 @@ namespace fefu_laboratory_two
 			return insert(pos, data);
 		};
 
-		/// @brief Removes the element at pos.
-		/// @param pos iterator to the element to remove
-		/// @return Iterator following the last removed element.
+		/// Removes the element at pos.
 		iterator erase(const_iterator pos) 
 		{
 			size_type _index = pos.get_index();
@@ -980,9 +894,7 @@ namespace fefu_laboratory_two
 			return ChunkList_Iterator<value_type>(this, _index, &at(_index));
 		};
 
-		/// @brief Removes the elements in the range [_first_chunk, last).
-		/// @param _first_chunk,last range of elements to remove
-		/// @return Iterator following the last removed element.
+		/// Removes the elements in the range [_first_chunk, last).
 		iterator erase(const_iterator _first_chunk, const_iterator last) 
 		{
 			size_type diff = last.get_index() - _first_chunk.get_index();
@@ -995,9 +907,8 @@ namespace fefu_laboratory_two
 			return ChunkList_Iterator<value_type>(this, _first_chunk.get_index(), &at(_first_chunk.get_index()));
 		};
 
-		/// @brief Appends the given element _value to the end of the _container.
+		/// Appends the given element _value to the end of the _container.
 		/// value_typehe new element is initialized as a copy of _value.
-		/// @param _value the _value of the element to append
 		void push_back(const value_type& _value) 
 		{
 			if (_first_chunk == nullptr)
@@ -1018,9 +929,8 @@ namespace fefu_laboratory_two
 			_size++;
 		};
 
-		/// @brief Appends the given element _value to the end of the _container.
+		/// Appends the given element _value to the end of the _container.
 		/// Value is moved into the new element.
-		/// @param _value the _value of the element to append
 		void push_back(value_type&& _value) 
 		{
 			if (_first_chunk == nullptr)
@@ -1040,9 +950,7 @@ namespace fefu_laboratory_two
 			_size++;
 		};
 
-		/// @brief Appends a new element to the end of the _container.
-		/// @param ...args arguments to forward to the constructor of the element
-		/// @return A reference to the inserted element.
+		/// Appends a new element to the end of the _container.
 		template <class... Args>
 		reference emplace_back(Args&&... args) 
 		{
@@ -1063,23 +971,20 @@ namespace fefu_laboratory_two
 			tmp->node_size--;
 		};
 
-		/// @brief Prepends the given element _value to the beginning of the _container.
-		/// @param _value the _value of the element to prepend
+		/// Prepends the given element _value to the beginning of the _container.
+		/// _value the _value of the element to prepend
 		void push_front(const value_type& _value) 
 		{
 			insert(cbegin(), _value);
 		};
 
-		/// @brief Prepends the given element _value to the beginning of the _container.
-		/// @param _value moved _value of the element to prepend
+		/// Prepends the given element _value to the beginning of the _container.
 		void push_front(value_type&& _value) 
 		{
 			insert(cbegin(), std::move(_value));
 		};
 
-		/// @brief Inserts a new element to the beginning of the _container.
-		/// @param ...args arguments to forward to the constructor of the element
-		/// @return A reference to the inserted element.
+		/// Inserts a new element to the beginning of the _container.
 		template <class... Args>
 		reference emplace_front(Args&&... args) 
 		{
@@ -1094,17 +999,16 @@ namespace fefu_laboratory_two
 			return back();
 		};
 
-		/// @brief Removes the _first_chunk element of the _container.
+		/// Removes the _first_chunk element of the _container.
 		void pop_front() 
 		{
 			erase(cbegin());
 		};
 
-		/// @brief Resizes the _container to contain count elements.
+		/// Resizes the _container to contain count elements.
 		/// If the current size is greater than count, the _container is reduced to its
 		/// _first_chunk count elements. If the current size is less than count, additional
 		/// default-inserted elements are appended
-		/// @param count new size of the _container
 		void resize(size_type count) 
 		{
 			if (count == _size) return;
@@ -1124,12 +1028,10 @@ namespace fefu_laboratory_two
 			}
 		};
 
-		/// @brief Resizes the _container to contain count elements.
+		/// Resizes the _container to contain count elements.
 		/// If the current size is greater than count, the _container is reduced to its
 		/// _first_chunk count elements. If the current size is less than count, additional
 		/// copies of _value are appended.
-		/// @param count new size of the _container
-		/// @param _value the _value to initialize the new elements with
 		void resize(size_type count, const value_type& _value) {
 			if (count == _size) return;
 			if (count < _size)
